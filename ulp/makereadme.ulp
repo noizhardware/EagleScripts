@@ -1,0 +1,82 @@
+// MiT License 2018 Alessio Occhiodoro
+// now it works with both schematics and boards
+
+if(board) board(B)
+{
+	string outputFileName = dlgFileSave("create .MD file", filesetext(B.name, ".md"), "*.md");
+
+	if(outputFileName == "")
+	{
+		exit(0);
+	}
+
+
+
+		output(outputFileName)
+		{
+			printf("# %s Readme file\n", filename(B.name));
+			printf("\n");
+			printf("## Generated on: %s\n", t2string(time()));
+			printf("\n");
+			printf("### %s\n", EAGLE_SIGNATURE);
+			printf("\n");
+			printf("---");
+			printf("\n");
+			printf("**!!!!!!!URGENT!!!!!!!**\n");
+			printf("  * //\n");
+			printf("\n");
+			printf("\n");
+			printf("**NOTES**\n");
+			printf("  * //\n");
+			printf("\n");
+			printf("\n");
+			printf("**TODO EDITS**\n");
+			printf("  * //\n");
+			printf("\n");
+
+
+		}
+
+}
+else
+{
+  if(schematic) schematic(S)
+  {
+    string outputFileName = dlgFileSave("create .MD file", filesetext(S.name, ".md"), "*.md");
+
+    if(outputFileName == "")
+    {
+	    exit(0);
+    }
+
+
+
+	  output(outputFileName)
+  	{
+	  	printf("# %s Readme file\n", filename(S.name));
+	  	printf("\n");
+	  	printf("## Generated on: %s\n", t2string(time()));
+	  	printf("\n");
+	  	printf("### %s\n", EAGLE_SIGNATURE);
+	  	printf("\n");
+	  	printf("---");
+	  	printf("\n");
+	  	printf("**!!!!!!!URGENT!!!!!!!**\n");
+	  	printf("  * //\n");
+	  	printf("\n");
+	  	printf("\n");
+	  	printf("**NOTES**\n");
+	  	printf("  * //\n");
+	  	printf("\n");
+  	 	printf("\n");
+  		printf("**TODO EDITS**\n");
+ 		  printf("  * //\n");
+	  	printf("\n");
+    }
+	}
+
+else
+{
+  dlgMessageBox("Daffuq ya doin bru?", "&OK");
+}
+}
