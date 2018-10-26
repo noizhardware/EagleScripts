@@ -10,3 +10,4 @@ Eagle Cad .scr scripts and ULPs
 ## SCRs
  - **attributes_add_indevice.scr** : adds a series of attributes to a device. Can automatically fill the value fields or prompt the user.
  - **graphicsBOT.scr** and **graphicsTOP.scr** : displays only significant layers for the final phase of a PCB layout, when you need to tidy up the TOP and BOTTOM silkscreens.
+ - **clean-placing.scr** : creates a clean display to place components
