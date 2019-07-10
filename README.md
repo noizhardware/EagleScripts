@@ -13,3 +13,4 @@ Eagle Cad .scr scripts and ULPs
  - **clean-placing.scr** : creates a clean display to place components in board mode.
  - **cleanSCH.scr** : cleans up the schematic view, improves readability and makes it ready to print/export.
  - **initBRD.sch** : initializes board view with 10mil grid (alt 1mil) and a nice color scheme.
+ 
