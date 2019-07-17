@@ -1,5 +1,5 @@
 $ cat .gitattributes
-*.ulp linguist-language=Objective-C
+*.ulp linguist-language=Eagle
 *.ulp linguist-detectable=true
 *.scr linguist-language=Eagle
 *.scr linguist-detectable=true
