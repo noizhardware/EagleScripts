@@ -1,0 +1,97 @@
+
+
+
+
+if(schematic) schematic(S)
+{
+	string outputFileName = dlgFileSave("Save BOM file", filesetext(S.name, ".BOM"), "*.bom");
+
+	if(outputFileName == "")
+	{
+		exit(0);
+	}
+
+	string nhpvalue[], partpackage[], partvalue[];
+	int quantity[], totalpartCount = 0, partIndex = 0, unidentifiedparts = 0;
+	char isAdd;
+
+
+	S.parts(P)
+	{
+		totalpartCount++;
+		isAdd = 0;
+
+ 		P.attributes(A)
+		{
+			if(A.name == "NHPREF")
+			{
+				if(A.value != "notacomponent")
+				{
+				 	for(int i = 0; i < partIndex; i++)
+					{
+						if(nhpvalue[i] != "")
+						{
+							if(nhpvalue[i] == A.value)
+							{
+								isAdd = 1;
+								quantity[i] = (quantity[i] + 1);
+								break;
+							}
+						}
+						else
+						{
+							unidentifiedparts++;
+							break;
+						}
+
+
+					}
+					if(isAdd == 0)
+					{
+						partvalue[partIndex] = P.value;
+						partpackage[partIndex] = P.device.package.name;
+						nhpvalue[partIndex] = A.value;
+						quantity[partIndex++] = 1;
+					}
+
+					if(partIndex > 0)
+					{
+						output(outputFileName)
+						{
+							printf("Bill of materials for %s\n", filename(S.name));
+							printf("n o i z  H A R D W A R E\n");
+							printf("Generated on: %s\n", t2string(time()));
+							printf("%s\n", EAGLE_SIGNATURE);
+							printf("\n");
+							printf("Qty	Value				Package				NHPref");
+							printf("\n");
+							for(int i = 0; i < partIndex; i++)
+							{
+								printf("%d	%s				%s				%s", quantity[i], partvalue[i], partpackage[i], nhpvalue[i]);
+								printf("\n");
+							}
+							printf("\n");
+							printf("TOTAL number of parts: %d\n", totalpartCount);
+							printf("TOTAL number of non-NHPREF-indexed parts: %d (not reliable at the moment)", unidentifiedparts);
+						}
+					}
+
+				}
+
+			}
+		}
+ 	}
+
+
+
+
+
+
+}
+
+
+
+else
+{
+	dlgMessageBox("Works only with schematics", "&OK");
+}
