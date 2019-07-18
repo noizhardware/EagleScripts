@@ -1,4 +1,4 @@
-# EagleScripts
+# EagleScripts <img src="eaglelogo.jpg" alt="eagle icon" width="50"/>
 Eagle Cad .scr scripts and ULPs
 
 ---
