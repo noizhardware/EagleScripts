@@ -1,0 +1,34 @@
+# my Eagle startup script
+
+# cartella delle librerie di BAO
+USE H:\EAGLE\LBR\;
+# USE C:\EAGLE-7.6.0\lbr\;
+USE H:\EAGLE\LBR\SparkFun-Eagle-Libraries-master\;
+USE H:\EAGLE\LBR\switch\;
+USE H:\EAGLE\LBR\alps\;
+USE H:\EAGLE\LBR\ModernDevice\;
+USE H:\EAGLE\LBR\seeed\;
+
+# custom keyboard shortcuts
+ASSIGN C+A 'ADD'
+ASSIGN C+G 'GROUP'
+ASSIGN C+E 'SMASH'
+#ASSIGN A+C 'COPY'
+ASSIGN C+D 'DELETE'
+#ASSIGN A+V 'PASTE'
+ASSIGN C+1 'net'
+ASSIGN C+L 'LABEL'
+
+ASSIGN C+F 'route'
+ASSIGN A+F 'ripup'
+
+ASSIGN C+R 'RAT'
+ASSIGN A+R 'RAT; ripup @;'
+ASSIGN F4 'GRID'
+ASSIGN F2 'info'
+ASSIGN F3 'show'
+ASSIGN C+W 'move'
+# ASSIGN C+T 'text'
+ASSIGN C+T 'CHANGE Font Vector; TEXT'
+
+ASSIGN A+A 'disp ALL'

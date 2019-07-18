@@ -1,0 +1,4 @@
+# Clean display and ExportImage for footprint - saves to desktop "baopart.tiff"
+
+disp none pad via drill tplac bplac tval bval tnam bnam
+ex im C:\Users\ninja\Desktop\baopart.tiff MONOCHROME 600;
