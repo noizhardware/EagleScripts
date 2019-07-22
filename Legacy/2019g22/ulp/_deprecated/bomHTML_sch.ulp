@@ -1,0 +1,144 @@
+
+// cha bug grossissimi, mi da il doppio dei componenti e non conta bene quelli unindexed
+// fare riferimento a bomTXT_sch, che almeno per il numero di componenti funzia bene
+
+
+if(schematic) schematic(S)
+{
+	string outputFileName = dlgFileSave("Save BOM file", filesetext(S.name, ".html"), "*.html");
+
+	if(outputFileName == "")
+	{
+		exit(0);
+	}
+
+	string nhpref[], partpackage[], partvalue[];
+	int quantity[], totalpartCount = 0, partIndex = 0, unidentifiedparts = 0;
+	char isAdd;
+
+
+	S.parts(P)
+	{
+		isAdd = 0;
+
+ 		P.attributes(A)
+		{
+			if(P.attribute["NHPREF"])
+			{
+				if(P.attribute["NHPREF"] != "notacomponent")
+				{
+				 	for(int i = 0; i < partIndex; i++)
+					{
+						if(nhpref[i] != "")
+						{
+							if(nhpref[i] == P.attribute["NHPREF"])
+							{
+								isAdd = 1;
+								quantity[i] = (quantity[i] + 1);
+								break;
+							}
+						}
+
+					}
+					if(isAdd == 0)
+					{
+						partvalue[partIndex] = P.value;
+						partpackage[partIndex] = P.device.package.name;
+						nhpref[partIndex] = P.attribute["NHPREF"];
+						quantity[partIndex++] = 1;
+					}
+
+				}
+
+			}
+			// if the part doesn't have a "NHPREF" attribute, or the attribute's value is empty, it gets counted as unidentified
+			else
+			{
+				unidentifiedparts++;
+				break;
+			}
+		}
+ 	}
+
+
+// here we print everything to file
+	if(partIndex > 0)
+	{
+		output(outputFileName)
+		{
+
+			printf("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n");
+			printf("<html><head>\n");
+			printf("<meta name=\"generator\" content=\"bomHTML_sch.ulp for EAGLE\">");
+			printf("<meta content=\"text/html; charset=ISO-8859-1\" http-equiv=\"content-type\"><title>BOM - %s</title>\n", filename(S.name));
+			printf("</head><body>\n");
+			printf("<td style=\"width: 457px;\"><font size=\"-1\">Bill of materials for:</font></td>\n");
+			printf("<h1 style=\"font-family: Arial;\">%s</h1>\n", filename(S.name));
+			printf("<h3 style=\"font-family: Arial;\">n o i z H A R D W A R E</h3>\n");
+			printf("<table style=\"text-align: left; font-family: Arial;\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\">\n");
+			printf("<tbody>\n");
+			printf("<tr>\n");
+			printf("<td style=\"font-weight: bold; width: 110px;\"><font size=\"-1\">Last update:</font></td>\n");
+			printf("<td style=\"width: 5px;\"></td>\n");
+			printf("<td style=\"width: 843px;\"><font size=\"-1\">%s</font></td>\n", t2string(time()));
+			printf("</tr>\n");
+			printf("<tr>\n");
+			printf("<td style=\"font-weight: bold; width: 110px;\"><font size=\"-1\">EAGLE version:</font></td>\n");
+			printf("<td style=\"width: 5px;\"></td>\n");
+			printf("<td style=\"width: 843px;\"><font size=\"-1\">%s</font></td>\n", EAGLE_SIGNATURE);
+			printf("</tr>\n");
+			printf("</tbody>\n");
+			printf("</table>\n");
+
+			printf("<br style=\"font-family: Arial;\">\n");
+			printf("<table style=\"text-align: left; font-family: Arial;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n");
+			printf("<tbody>\n");
+			printf("<tr>\n");
+			printf("<td style=\"width: 80px; font-weight: bold;\"><font size=\"-1\">Qty</font></td>\n");
+			printf("<td style=\"width: 175px; font-weight: bold;\"><font size=\"-1\">Part value</font></td>\n");
+			printf("<td style=\"width: 60px; font-weight: bold;\"><font size=\"-1\">Package</font></td>\n");
+			printf("<td style=\"width: 457px; font-weight: bold;\"><font size=\"-1\">NHPref</font></td>\n");
+			printf("</tr>\n");
+
+
+			for(int i = 0; i < partIndex; i++)
+			{
+			// this "if" cycle is a very dirty way to fix a bug that counts double the quantity of a part if its quantity is more than 1
+			if(quantity[i] > 1)
+				{
+					quantity[i] = (quantity[i] / 2);
+				}
+					printf("<tr>\n");
+					printf("<td style=\"width: 175px;\"><font size=\"-1\">%d</font></td>\n", quantity[i]);
+					printf("<td style=\"width: 60px;\"><font size=\"-1\">%s</font></td>\n", partvalue[i]);
+					printf("<td style=\"width: 457px;\"><font size=\"-1\">%s</font></td>\n", partpackage[i]);
+					printf("<td style=\"width: 170px;\"><font size=\"-1\">%s</font></td>\n", nhpref[i]);
+					printf("</tr>\n");
+				totalpartCount = totalpartCount + quantity[i];
+			}
+			printf("<tr>\n");
+			printf("<td style=\"text-align: right;\" colspan=\"4\" rowspan=\"1\"><font size=\"-1\">NHPREF-indexed parts</font></td>\n");
+			printf("<td><font size=\"-1\">%d</font></td>\n", totalpartCount);
+			printf("</tr>\n");
+			printf("<td style=\"text-align: right;\" colspan=\"4\" rowspan=\"1\"><font size=\"-1\">non-NHPREF-indexed parts (looks reliable)</font></td>\n");
+			printf("<td><font size=\"-1\">%d</font></td>\n", unidentifiedparts);
+			printf("</tr>\n");
+			printf("</tbody>\n");
+			printf("</table>\n");
+			printf("</body></html>");
+		}
+	}
+
+
+
+
+
+
+}
+
+
+
+else
+{
+	dlgMessageBox("Works only with schematics, sorry bru", "&OK");
+}

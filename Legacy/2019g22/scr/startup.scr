@@ -2,7 +2,6 @@
 
 # cartella delle librerie di BAO
 USE H:\EAGLE\LBR\;
-USE H:\EAGLE\LBR\baoSCH;
 # USE C:\EAGLE-7.6.0\lbr\;
 USE H:\EAGLE\LBR\SparkFun-Eagle-Libraries-master\;
 USE H:\EAGLE\LBR\switch\;
