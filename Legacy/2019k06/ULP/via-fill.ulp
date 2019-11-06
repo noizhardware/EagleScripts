@@ -1,8 +1,6 @@
 #usage  "<b>Via Fill v0.1</b><p>"
 	"Fills any polygons connected to specified nets."
        "<p>"
-       "Can be <b>VERY FUCKING SLOW</b> on medium and big boards. Don't worry.<p>"
-       "And please <b>SAVE BEFORE RUNNING THIS SCRIPT</b>, it's full of shitty bugs."
        "With a grid of vias, if there is a corresponding polygon on the other side"
        "of the board. Rectiliar or staggered grid can be chosen.<p>"
 	"Specify via spacing, grid type, nets (by pick list) <p>"

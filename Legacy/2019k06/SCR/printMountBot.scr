@@ -1,0 +1,5 @@
+disp all
+rat
+disp none bval bplac bdocu
+ex im D:/EAGLE/BRD/ MONOCHROME 600;
+disp all

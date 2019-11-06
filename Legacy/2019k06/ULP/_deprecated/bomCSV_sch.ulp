@@ -1,0 +1,104 @@
+
+
+
+
+if(schematic) schematic(S)
+{
+	string outputFileName = dlgFileSave("Save BOM file", filesetext(S.name, ".csv"), "*.csv");
+
+	if(outputFileName == "")
+	{
+		exit(0);
+	}
+
+	string nhpref[], partpackage[], partvalue[];
+	int quantity[], totalpartCount = 0, partIndex = 0, unidentifiedparts = 0;	
+	char isAdd;
+
+
+	S.parts(P)
+	{
+		isAdd = 0;
+
+ 		P.attributes(A)
+		{
+			if(P.attribute["NHPREF"])
+			{
+				if(P.attribute["NHPREF"] != "notacomponent")
+				{
+				 	for(int i = 0; i < partIndex; i++)
+					{
+						if(nhpref[i] != "")
+						{
+							if(nhpref[i] == P.attribute["NHPREF"])
+							{
+								isAdd = 1;
+								quantity[i] = (quantity[i] + 1);
+								break;
+							}
+						}
+					
+					}
+					if(isAdd == 0)
+					{
+						partvalue[partIndex] = P.value;
+						partpackage[partIndex] = P.device.package.name;
+						nhpref[partIndex] = P.attribute["NHPREF"];
+						quantity[partIndex++] = 1;			
+					}
+
+				}	
+				
+			}
+			// if the part doesn't have a "NHPREF" attribute, or the attribute's value is empty, it gets counted as unidentified
+			else
+			{
+				unidentifiedparts++;
+				break;
+			}
+		}
+ 	}
+
+
+// here we print everything to file
+	if(partIndex > 0)
+	{
+		output(outputFileName)
+		{
+			printf("\"Bill of materials for\";\"%s\"\n", filename(S.name));
+			printf("\"n o i z  H A R D W A R E\"\n");
+			printf("\"Generated on:\";\"%s\"\n", t2string(time()));
+			printf("\"EAGLE version\";\"%d_%d\"\n", EAGLE_VERSION, EAGLE_RELEASE);
+			printf("\n");
+			printf("\"Qty\";\"Value\";\"Package\";\"NHPref\"\n");
+			printf("\n");
+			for(int i = 0; i < partIndex; i++)
+			{
+			// this "if" cycle is a very dirty way to fix a bug that counts double the quantity of a part if its quantity is more than 1
+			if(quantity[i] > 1)
+				{
+					quantity[i] = (quantity[i] / 2);
+				}
+				printf("\"%d\";\"%s\";\"%s\";\"%s\"", quantity[i], partvalue[i], partpackage[i], nhpref[i]);
+				printf("\n");
+				totalpartCount = totalpartCount + quantity[i];
+			}
+			printf("\n");
+			printf("\"NHPREF-indexed parts:\";\"%d\"\n", totalpartCount);
+			printf("\"non-NHPREF-indexed parts:\";\"%d\";\"looks reliable...\"", unidentifiedparts);	
+		}	
+	}
+
+
+
+
+	
+
+}
+
+
+
+else
+{
+	dlgMessageBox("Works only with schematics", "&OK");
+}

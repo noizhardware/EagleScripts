@@ -1,0 +1,153 @@
+
+
+#usage "<p><b>Creates an .HTML human-readable file (schematic only)</b><p>\n"
+
+if(schematic) schematic(S)
+{
+	string outputFileName = dlgFileSave("Save HTML file", filesetext(S.name, ".html"), "*.html");
+
+	if(outputFileName == "")
+	{
+		exit(0);
+	}
+
+	string nhpNUMBER[], partValue[], partDesc[];
+	int quantity[], totalpartCount = 0, partIndex = 0, notacomp = 0, nonNHPREF = 0;
+	char isAdd;
+
+
+	S.parts(P)
+	{
+		if (P.attribute["NHPREF"] == "") // vede se NON esiste l'attributo NHPREF
+		{
+			nonNHPREF++ ;
+		}
+
+		isAdd = 0;
+
+ 		P.attributes(A)
+		{
+			if(A.name == "NHPREF")
+			{
+				if(A.value != "notacomponent")
+				{
+					totalpartCount++;
+				 	for(int i = 0; i < partIndex; i++)
+					{
+						if(nhpNUMBER[i] != "")
+						{
+							if(nhpNUMBER[i] == A.value)
+							{
+								isAdd = 1;
+								quantity[i] = (quantity[i] + 1);
+								break;
+							}
+						}
+					}
+
+					if(isAdd == 0)
+					{
+						nhpNUMBER[partIndex] = A.value;
+						quantity[partIndex++] = 1;
+						partValue[i] = P.value;
+						partDesc[i] = P.device.name;
+					}
+				}
+				else
+				{
+					notacomp++ ;
+				}
+			}
+		}
+ 	}
+
+
+	// here we print to file
+	if(partIndex > 0)
+	{
+		output(outputFileName)
+		{
+			//for(int i = 0; i < partIndex; i++)
+			//{
+				printf("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n");
+				printf("<html><head>\n");
+				printf("<meta name=\"generator\" content=\"BOM-GEN for EAGLE\">");
+				printf("<meta content=\"text/html; charset=ISO-8859-1\" http-equiv=\"content-type\"><title>BOM - %s</title>\n", filename(S.name));
+				printf("</head><body>\n");
+				printf("<h2 style=\"font-family: Arial;\">Bill of materials for %s</h2>\n", filename(S.name));
+				printf("<h3 style=\"font-family: Arial;\">n o i z H A R D W A R E</h3>\n");
+				printf("<table style=\"text-align: left; font-family: Arial;\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\">\n");
+				printf("<tbody>\n");
+				printf("<tr>\n");
+				printf("<td style=\"font-weight: bold; width: 110px;\"><font size=\"-1\">Created on:</font></td>\n");
+				printf("<td style=\"width: 5px;\"></td>\n");
+				printf("<td style=\"width: 843px;\"><font size=\"-1\">%s</font></td>\n", t2string(time()));
+				printf("</tr>\n");
+				printf("<tr>\n");
+				printf("<td style=\"font-weight: bold; width: 110px;\"><font size=\"-1\">EAGLE version:</font></td>\n");
+				printf("<td style=\"width: 5px;\"></td>\n");
+				printf("<td style=\"width: 843px;\"><font size=\"-1\">%s</font></td>\n", EAGLE_SIGNATURE);
+				printf("</tr>\n");
+				printf("</tbody>\n");
+				printf("</table>\n");
+
+				printf("<br style=\"font-family: Arial;\">\n");
+				printf("<table style=\"text-align: left; font-family: Arial;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n");
+				printf("<tbody>\n");
+				printf("<tr>\n");
+				printf("<td style=\"width: 50px; font-weight: bold;\"><font size=\"-1\">QTY</font></td>\n");
+				printf("<td style=\"width: 80px; font-weight: bold;\"><font size=\"-1\">Part value</font></td>\n");
+				printf("<td style=\"width: 100px; font-weight: bold;\"><font size=\"-1\">Description</font></td>\n");
+				printf("<td style=\"width: 50px; font-weight: bold;\"><font size=\"-1\">NHPREF</font></td>\n");
+				printf("</tr>\n");
+
+				for(int i = 0; i < partIndex; i++)
+				{
+					printf("<tr>\n");
+					printf("<td style=\"width: 50px;\"><font size=\"-1\">%d</font></td>\n", quantity[i]);
+					printf("<td style=\"width: 80px;\"><font size=\"-1\">%s</font></td>\n", partValue[i]);
+					printf("<td style=\"width: 100px;\"><font size=\"-1\">%s</font></td>\n", partDesc[i]);
+					printf("<td style=\"width: 50px;\"><font size=\"-1\">%s</font></td>\n", nhpNUMBER[i]);
+					printf("</tr>\n");
+				}
+
+				printf("<tr>\n");
+				printf("<td style=\"text-align: right;\" colspan=\"4\" rowspan=\"1\"><font size=\"-1\">notacomponent elements:</font></td>\n");
+				printf("<td><font size=\"-1\">%d</font></td>\n", notacomp);
+				printf("</tr>\n");
+				printf("<tr>\n");
+				printf("<td style=\"text-align: right;\" colspan=\"4\" rowspan=\"1\"><font size=\"-1\">unidentified elements:</font></td>\n");
+
+				printf("<td><font size=\"-1\">%d</font></td>\n", nonNHPREF);
+
+				//if (nonNHPREF == 0)
+				//{
+				//	printf("<td><font size=\"-1\">alles gut</font></td>\n");
+				//}
+				//else
+				//{
+				//	printf("<td><font size=\"-1\">orcodio!</font></td>\n");
+				//}
+
+				printf("</tr>\n");
+				printf("<tr>\n");
+				printf("<td style=\"text-align: right;\" colspan=\"4\" rowspan=\"1\"><font size=\"-1\">number of components to populate:</font></td>\n");
+				printf("<td><font size=\"-1\">%d</font></td>\n", totalpartCount);
+				printf("</tr>\n");
+				printf("</tbody>\n");
+				printf("</table>\n");
+				printf("</body></html>");
+			//}
+		}
+	}
+	else
+	{
+		dlgMessageBox("No parts here, bru!", "&OK");
+	}
+
+}
+
+else
+{
+	dlgMessageBox("Schematics only, BRU!", "&OK");
+}

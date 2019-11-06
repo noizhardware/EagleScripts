@@ -47,19 +47,19 @@ if(board) board(B)
 			printf("\n");
 			printf("---");
 			printf("\n");
-			printf("## !!!!!!!URGENT!!!!!!!\n");
+			printf("**!!!!!!!URGENT!!!!!!!**\n");
 			printf("  * //\n");
 			printf("\n");
 			printf("\n");
-			printf("### NOTES\n");
+			printf("**NOTES**\n");
 			printf("  * //\n");
 			printf("\n");
 			printf("\n");
-			printf("### TODO EDITS\n");
+			printf("**TODO EDITS**\n");
 			printf("  * //\n");
 			printf("\n");
-               printf("#### _TEST ROUTINE_\n");
-			printf("  * //\n");
+
+
 		}
 
 }

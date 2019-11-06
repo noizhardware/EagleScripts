@@ -1,0 +1,5 @@
+disp all
+rat
+disp none bot pad via
+ex im D:/EAGLE/BRD/ MONOCHROME 600;
+disp all

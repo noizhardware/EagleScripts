@@ -1,5 +1,3 @@
-# setup for SHEMATIC bootstrap
-
 GRID ON;
 GRID LINES;
 GRID MIL;
@@ -8,9 +6,6 @@ GRID ALT 10 MIL;
 
 ADD FRAME-A3-LAND@baoSCH.lbr (0 0);
 ADD PCB@bao.lbr (2700 7800);
-
-# mostly libraries and keybindings
-SCRIPT startup.scr;
 
 
 SET TOGGLE_CLI;

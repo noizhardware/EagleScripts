@@ -1,0 +1,25 @@
+// Creates a list file like this;
+// value of the attribute "NHPREF"
+// number of parts with that value
+// ignores values "notacomponent"
+
+
+
+if(schematic) schematic(S)
+{
+	string outputFileName = dlgFileSave("Save BOM file", filesetext(S.name, ".stock"), "*.stock");
+
+
+		output(outputFileName)
+		{
+			printf("PORCODIO!!!");
+		}
+
+}
+
+
+
+else
+{
+	dlgMessageBox("Works only with schematics", "&OK");
+}
