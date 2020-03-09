@@ -1,0 +1,11 @@
+ATTRIBUTE INFO '' variable;
+ATTRIBUTE POPULATE 'TRUE' variable;
+ATTRIBUTE NHPREF '' constant;
+
+# this one prompts the user for the value of the "NHPREF" attribute
+ATTRIBUTE NHPREF
+
+ATTRIBUTE VALUE '' constant;
+
+# this one prompts the user for the value of the "VALUE" attribute
+ATTRIBUTE VALUE
