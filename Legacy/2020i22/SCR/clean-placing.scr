@@ -1,0 +1,2 @@
+# clean view to place components on the BOARD
+disp all -tname -bname -tdocu -bdocu -tval -bval -tkeep -bkeep -tstop -bstop -tcream -bcream -drill

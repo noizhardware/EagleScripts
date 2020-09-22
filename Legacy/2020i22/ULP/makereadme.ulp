@@ -48,18 +48,18 @@ if(board) board(B)
 			printf("---");
 			printf("\n");
 			printf("## !!!!!!!URGENT!!!!!!!\n");
-			printf("  * --\n");
+			printf("  * //\n");
 			printf("\n");
 			printf("\n");
 			printf("### NOTES\n");
-			printf("  * --\n");
+			printf("  * //\n");
 			printf("\n");
 			printf("\n");
 			printf("### TODO EDITS\n");
-			printf("  * --\n");
+			printf("  * //\n");
 			printf("\n");
                printf("#### _TEST ROUTINE_\n");
-			printf("  * --\n");
+			printf("  * //\n");
 		}
 
 }
@@ -87,19 +87,19 @@ else
 	  	printf("---");
 	  	printf("\n");
 	  	printf("# **!!!!!!!URGENT!!!!!!!**\n");
-	  	printf("  * --\n");
+	  	printf("  * //\n");
 	  	printf("\n");
 	  	printf("\n");
 	  	printf("## **NOTES**\n");
-	  	printf("  * --\n");
+	  	printf("  * //\n");
 	  	printf("\n");
   	 	printf("\n");
   		printf("## **TODO EDITS**\n");
- 		  printf("  * --\n");
+ 		  printf("  * //\n");
 			printf("\n");
 	  	printf("\n");
 			printf("## _TEST ROUTINE_\n");
-			printf("  * --\n");
+			printf("  * //\n");
 			printf("\n");
     }
 	}

@@ -1,0 +1,4 @@
+# clean formatting to PRINT a schematic on paper or file
+
+disp none sym val nam info net
+grid off

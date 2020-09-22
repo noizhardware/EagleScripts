@@ -1,0 +1,93 @@
+// Creates a list file like this;
+// value of the attribute "NHPREF"
+// number of parts with that value
+// ignores values "notacomponent"
+
+#usage "<p><b>Creates a .stock file</b><p>\n"
+
+if(schematic) schematic(S)
+{
+	string outputFileName = dlgFileSave("Save BOM file", filesetext(S.name, ".stock"), "*.stock");
+
+	if(outputFileName == "")
+	{
+		exit(0);
+	}
+
+	string nhpvalue[];
+	int quantity[], totalpartCount = 0, partIndex = 0, notacomp = 0;
+	char isAdd;
+
+
+	S.parts(P)
+	{
+		totalpartCount++;
+		isAdd = 0;
+
+ 		P.attributes(A)
+		{
+			if(A.name == "NHPREF")
+			{
+				if(A.value != "notacomponent")
+				{
+				 	for(int i = 0; i < partIndex; i++)
+					{
+						if(nhpvalue[i] != "")
+						{
+							if(nhpvalue[i] == A.value)
+							{
+								isAdd = 1;
+								quantity[i] = (quantity[i] + 1);
+								break;
+							}
+						}
+
+
+					}
+					if(isAdd == 0)
+					{
+						nhpvalue[partIndex] = A.value;
+						quantity[partIndex++] = 1;
+					}
+				}
+				else
+				{
+					notacomp++ ;
+				}
+
+
+
+
+			}
+		}
+ 	}
+
+
+	// here we print to file
+	//if(partIndex > 0)
+	//{
+		output(outputFileName)
+		{
+			for(int i = 0; i < partIndex; i++)
+			{
+				printf("%s", nhpvalue[i]);
+				printf("\n");
+				printf("%d", quantity[i]);
+				printf("\n");
+			}
+		}
+	//}
+
+
+
+
+
+
+}
+
+
+
+else
+{
+	dlgMessageBox("Works only with schematics", "&OK");
+}

@@ -1,5 +1,6 @@
 # clean view to place <b>GND vias</b><p>
 # Then also creates GND-ready via tool (octagonal), ready to be placed without hassle and fucking renaming!!!
 #     </p>
+
 disp none pad via top bot unrout;
-via 'GND'
+via 'GND' octagon
